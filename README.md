@@ -68,7 +68,7 @@ Antes de começar, você precisará ter instalado em sua máquina:
 
     Apache Maven - Gerenciador de dependências.
 
-    [link suspeito removido] - Banco de dados.
+    Banco de dados.
 
 1. Clonar o Repositório
 
