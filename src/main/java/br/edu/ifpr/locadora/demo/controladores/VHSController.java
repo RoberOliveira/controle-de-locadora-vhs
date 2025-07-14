@@ -1,11 +1,13 @@
 package br.edu.ifpr.locadora.demo.controladores;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ public class VHSController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * Lista todas as fitas VHS
+     */
     @GetMapping
     public String findAll(Model model) {
         List<VHS> vhsList = vhsService.findAll();
@@ -32,38 +37,51 @@ public class VHSController {
         return "vhs-list";
     }
 
+    /**
+     * Exibe o formulário para cadastrar uma nova VHS
+     */
     @GetMapping("/novo")
     public String showNewVhsForm(Model model) {
-        model.addAttribute("allCategories", categoryService.findAll());
         model.addAttribute("vhs", new VHS());
+        model.addAttribute("allCategories", categoryService.findAll());
         return "vhs-form";
     }
 
+    /**
+     * Salva uma nova VHS ou atualiza uma existente, com validação
+     */
     @PostMapping("/salvar")
-    public String saveVhs(@Valid VHS vhs, BindingResult bindingResult, Model model) {
-        
-        // Se houver erros de validação...
+    public String saveVhs(
+            @Valid @ModelAttribute("vhs") VHS vhs,
+            BindingResult bindingResult,
+            Model model) {
+
         if (bindingResult.hasErrors()) {
-            // Recarregamos a lista de categorias para o formulário não quebrar
+            // Se houver erros de validação, recarrega categorias e volta ao formulário
             model.addAttribute("allCategories", categoryService.findAll());
-            // Retornamos para a página do formulário para exibir os erros
             return "vhs-form";
         }
-        
-        // Se não houver erros, salvamos e redirecionamos
+
         vhsService.save(vhs);
         return "redirect:/vhs";
     }
 
+    /**
+     * Exibe o formulário para editar uma VHS existente
+     */
     @GetMapping("/editar/{id}")
     public String showEditVhsForm(@PathVariable Long id, Model model) {
         VHS vhs = vhsService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID da Fita inválido:" + id));
-        model.addAttribute("allCategories", categoryService.findAll());
+                .orElseThrow(() -> new IllegalArgumentException("ID da Fita inválido: " + id));
+
         model.addAttribute("vhs", vhs);
+        model.addAttribute("allCategories", categoryService.findAll());
         return "vhs-form";
     }
 
+    /**
+     * Deleta uma VHS pelo ID
+     */
     @GetMapping("/deletar/{id}")
     public String deleteVhs(@PathVariable Long id) {
         vhsService.deleteById(id);
