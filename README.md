@@ -105,10 +105,7 @@ Properties
 
     A aplicação estará disponível em http://localhost:8080.
 
-🔑 Credenciais de Acesso
+    Credenciais de Acesso
 
-Para acessar o sistema, utilize as credenciais padrão criadas em memória:
+Após iniciar a aplicação, você pode criar uma nova conta na página de cadastro ou, se preferir, pode criar um usuário padrão para testes. Para acessar, utilize as credenciais que você cadastrou.
 
-    Usuário: user
-
-    Senha: password
