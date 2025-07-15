@@ -10,8 +10,15 @@
         <h1>Minha Coleção de Fitas VHS</h1>
         <hr>
         
-        <a th:href="@{/vhs/novo}" class="btn btn-primary mb-3">Cadastrar Nova Fita</a>
-        <a th:href="@{/categorias}" class="btn btn-info mb-3">Gerenciar Categorias</a>
+        <div>
+            <a th:href="@{/vhs/novo}" class="btn btn-primary mb-3">Cadastrar Nova Fita</a>
+            <a th:href="@{/categorias}" class="btn btn-info mb-3">Gerenciar Categorias</a>
+
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger mb-3">Sair</button>
+            </form>
+        </div>
+
 
         <div th:if="${vhsList.isEmpty()}">
             <div class="alert alert-info" role="alert">
